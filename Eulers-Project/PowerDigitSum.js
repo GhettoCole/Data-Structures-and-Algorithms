@@ -17,5 +17,3 @@ function powerDigitSum(base, power) {
     }
     return added;
 }
-
-console.log(powerDigitSum(2, 1000));
