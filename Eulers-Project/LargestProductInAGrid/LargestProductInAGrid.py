@@ -1,6 +1,6 @@
-// Author - Given Lepita
+# Author - Given Lepita
 
-/*
+"""
 Problem Set - Largest Product In A Grid
 
 In the 20 x 20 grid below, four numbers along a diagonal line have been marked in with asterisks.
@@ -31,7 +31,7 @@ The product of these numbers is 26 x 63 x 78 = 1788696
 What is the greatest product of four adjacent numbers in the same direction (up, down, left, right, or diagonally) in the 
  grid?
 
-*/
+"""
 
 grid = [
     [8, 2, 22, 97, 38, 15, 0, 40, 0, 75, 4, 5, 7, 78, 52, 12, 50, 77, 91, 8],
@@ -56,31 +56,36 @@ grid = [
     [1, 70, 54, 71, 83, 51, 54, 69, 16, 92, 33, 48, 61, 43, 52, 1, 89, 19, 67, 48]
 ]
 
-function greatestProductOfAdjacent(grid) {
-    const rows = grid.length;
-    const cols = grid[0].length;
-    let maxProduct = 0;
+def greatest_product_in_grid(grid):
+    rows = len(grid)
+    cols = len(grid[0])
+    max_product = 0
 
-    // Check horizontal and vertical products
-    for (let i = 0; i < rows; i++) {
-        for (let j = 0; j < cols - 3; j++) {
-            const horizontalProduct = grid[i][j] * grid[i][j + 1] * grid[i][j + 2] * grid[i][j + 3];
-            const verticalProduct = grid[j][i] * grid[j + 1][i] * grid[j + 2][i] * grid[j + 3][i];
-            maxProduct = Math.max(maxProduct, horizontalProduct, verticalProduct);
-        }
-    }
+    # Check horizontal products
+    for row in range(rows):
+        for col in range(cols - 3):
+            product = grid[row][col] * grid[row][col + 1] * grid[row][col + 2] * grid[row][col + 3]
+            max_product = max(max_product, product)
 
-    // Check diagonal products (both directions)
-    for (let i = 0; i < rows - 3; i++) {
-        for (let j = 0; j < cols - 3; j++) {
-            const diagonalProduct1 = grid[i][j] * grid[i + 1][j + 1] * grid[i + 2][j + 2] * grid[i + 3][j + 3];
-            const diagonalProduct2 = grid[i][j + 3] * grid[i + 1][j + 2] * grid[i + 2][j + 1] * grid[i + 3][j];
-            maxProduct = Math.max(maxProduct, diagonalProduct1, diagonalProduct2);
-        }
-    }
+    # Check vertical products
+    for row in range(rows - 3):
+        for col in range(cols):
+            product = grid[row][col] * grid[row + 1][col] * grid[row + 2][col] * grid[row + 3][col]
+            max_product = max(max_product, product)
 
-    return maxProduct;
-}
+    # Check diagonal (down-right) products
+    for row in range(rows - 3):
+        for col in range(cols - 3):
+            product = grid[row][col] * grid[row + 1][col + 1] * grid[row + 2][col + 2] * grid[row + 3][col + 3]
+            max_product = max(max_product, product)
 
-const result = greatestProductOfAdjacent(grid);
-console.log("The greatest product of four adjacent numbers in the grid is: " + result);
+    # Check diagonal (up-right) products
+    for row in range(3, rows):
+        for col in range(cols - 3):
+            product = grid[row][col] * grid[row - 1][col + 1] * grid[row - 2][col + 2] * grid[row - 3][col + 3]
+            max_product = max(max_product, product)
+
+    return max_product
+
+if __name__ == "__main__":
+    print("The greatest product of four adjacent numbers in the grid is:", greatest_product_in_grid(grid))
